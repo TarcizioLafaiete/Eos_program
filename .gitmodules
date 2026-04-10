@@ -1,0 +1,3 @@
+[submodule "third_party/AsyncDispatcher"]
+	path = third_party/AsyncDispatcher
+	url = https://github.com/TarcizioLafaiete/AsyncDispatcher.git
