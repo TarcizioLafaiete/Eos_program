@@ -1,5 +1,6 @@
 find_package(X11 REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(dispatcher REQUIRED)
 
 include_directories(/usr/local/include)
 
@@ -15,11 +16,13 @@ target_include_directories(view PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
                                         ${OpenCV_INCLUDE_DIRS})
 
 target_link_libraries(view PUBLIC
+                business
                 nana
                 X11
                 Xft
                 fontconfig
                 pthread
+                dispatcher::dispatcher
                 ${OpenCV_LIBS}
 )
 

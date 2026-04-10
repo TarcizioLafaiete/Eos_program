@@ -2,6 +2,10 @@
 #include <nana/paint/image.hpp>
 #include <filesystem>
 #include <iostream>
+#include <dispatcher/DispatcherProvider.hpp>
+#include <actions.hpp>
+
+
 
 using namespace nana;
 namespace fs = std::filesystem;
@@ -14,6 +18,9 @@ eos::view::mainWidget::mainWidget()
 
     this->makeLayout();
     API::show_window(this->add_view_image_btn,false);
+    
+
+    this->connect();
     // exec();
     
 
@@ -200,4 +207,14 @@ void eos::view::mainWidget::drawImageInButton(button& button,std::string icon){
     });
 
     dw.update();
+}
+
+void test(){
+    int a = 20;
+    int b = 30;
+    std::cout<<a+b<<std::endl;
+}
+
+void eos::view::mainWidget::connect(){
+
 }
