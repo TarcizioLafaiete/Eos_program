@@ -10,9 +10,10 @@
 using namespace nana;
 namespace fs = std::filesystem;
 
-eos::view::mainWidget::mainWidget()
+eos::view::mainWidget::mainWidget(std::shared_ptr<eos::business::signalManager> sigManager)
 :fm{API::make_center(800,600)}{
 
+    this->manager = sigManager;
 
     fm.caption("Main Window");
 
@@ -216,5 +217,19 @@ void test(){
 }
 
 void eos::view::mainWidget::connect(){
+
+    dispatcher::TaskContext starCtx;
+    eos::business::actions::emptyAction start;
+    starCtx.set(start);
+    this->start_btn.events().click([this,starCtx]{
+        this->manager->emit(eos::business::signalRegister::START,starCtx);
+    });
+
+    dispatcher::TaskContext stopCtx;
+    eos::business::actions::emptyAction stop;
+    stopCtx.set(stop);
+    this->stop_btn.events().click([this,stopCtx]{
+        this->manager->emit(eos::business::signalRegister::STOP,stopCtx);
+    });
 
 }

@@ -1,12 +1,15 @@
 #include <mainWidget.hpp>
-#include <dispatcher/DispatcherProvider.hpp>
+#include <signalManager.hpp>
+#include <controller.hpp>
 
 
 int main(){
 
-    dispatcher::DispatcherProvider::init(20,2);
+    auto sigManager = std::make_shared<eos::business::signalManager>(1,20);
 
-    eos::view::mainWidget app;
+
+    eos::control::controller controlApp(sigManager);
+    eos::view::mainWidget widgetApp(sigManager);
     nana::exec();
 
     return 0;

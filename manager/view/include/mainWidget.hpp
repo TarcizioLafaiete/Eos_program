@@ -6,11 +6,16 @@
 #include <nana/gui/widgets/checkbox.hpp>
 #include <nana/gui/widgets/spinbox.hpp>
 
+#include <memory>
+
+#include <signalManager.hpp>
+#include <signalRegister.hpp>
+
 namespace eos{
     namespace view{
         class mainWidget{
             public:
-                mainWidget();
+                mainWidget(std::shared_ptr<eos::business::signalManager> sigManager);
                 ~mainWidget();
             
             private:
@@ -51,6 +56,8 @@ namespace eos{
                nana::button stop_btn;
                nana::button save_config_btn;
                nana::button add_view_image_btn;
+
+               std::shared_ptr<eos::business::signalManager> manager;
 
         };
     };
