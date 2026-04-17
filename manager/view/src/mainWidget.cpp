@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <iostream>
 #include <dispatcher/DispatcherProvider.hpp>
-#include <actions.hpp>
 
 
 
@@ -210,18 +209,17 @@ void eos::view::mainWidget::drawImageInButton(button& button,std::string icon){
     dw.update();
 }
 
-void test(){
-    int a = 20;
-    int b = 30;
-    std::cout<<a+b<<std::endl;
-}
-
 void eos::view::mainWidget::connect(){
 
-    dispatcher::TaskContext starCtx;
-    eos::business::actions::emptyAction start;
-    starCtx.set(start);
-    this->start_btn.events().click([this,starCtx]{
+    this->manager->connect(eos::business::signalRegister::LOAD_CONFIG,[this](dispatcher::TaskContext& ctx){
+        this->writeFirstConfigs(ctx);
+    });
+
+
+    this->start_btn.events().click([this]{
+        dispatcher::TaskContext starCtx;
+        auto start = this->getCurrentConfig();
+        starCtx.set(start);
         this->manager->emit(eos::business::signalRegister::START,starCtx);
     });
 
@@ -231,5 +229,53 @@ void eos::view::mainWidget::connect(){
     this->stop_btn.events().click([this,stopCtx]{
         this->manager->emit(eos::business::signalRegister::STOP,stopCtx);
     });
+
+    this->save_config_btn.events().click([this]{
+        dispatcher::TaskContext saveCtx;
+        auto config = this->getCurrentConfig();
+        saveCtx.set(config);
+        this->manager->emit(eos::business::signalRegister::SAVE_CONFIG,saveCtx);
+    });
+
+}
+
+void eos::view::mainWidget::writeFirstConfigs(dispatcher::TaskContext& ctx){
+
+    auto config = ctx.get<eos::business::actions::eosConfig>();
+
+    auto findOption = [](nana::combox& cb, std::string label){
+        for(int i = 0; i < cb.the_number_of_options();i++){
+            if(cb.text(i) == label){
+                return i;
+            }
+        }
+        return 0;
+    };
+
+    this->time_input.value(std::to_string(config.time));
+    this->time_unit.option(findOption(this->time_unit,config.timeUnit));
+    this->ui_combo.option(findOption(this->ui_combo,config.uiSystem));
+    this->random_chk.check(config.randomDisplay);
+    this->carousel.option(findOption(this->carousel,config.currentCarousel));
+    
+}
+
+eos::business::actions::eosConfig eos::view::mainWidget::getCurrentConfig(){
+
+    eos::business::actions::eosConfig config;
+
+    auto getTextCombox = [](nana::combox& cb){
+        int index = cb.option();
+        return cb.text(index);
+    };
+
+    config.time = std::stoi(this->time_input.value());
+    config.timeUnit = getTextCombox(this->time_unit);
+    config.uiSystem = getTextCombox(this->ui_combo);
+    config.randomDisplay = this->random_chk.checked();
+    config.currentCarousel = getTextCombox(this->carousel);
+
+    return config;
+    
 
 }

@@ -11,6 +11,14 @@ namespace eos{
                 bool useless;
             };
 
+            struct eosConfig{
+                int time;
+                std::string timeUnit;
+                std::string uiSystem;
+                bool randomDisplay;
+                std::string currentCarousel;
+            };
+
         };
     };
 }

@@ -1,5 +1,7 @@
 
 find_package(dispatcher REQUIRED)
+find_package(nlohmann_json REQUIRED)
+
 
 file(GLOB CONTROL_SOURCES src/*.cpp)
 
@@ -13,5 +15,6 @@ target_include_directories(app
 )
 
 target_link_libraries(app PRIVATE dispatcher::dispatcher
+    nlohmann_json::nlohmann_json
     view
 )

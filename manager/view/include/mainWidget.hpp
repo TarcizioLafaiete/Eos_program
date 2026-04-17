@@ -10,6 +10,8 @@
 
 #include <signalManager.hpp>
 #include <signalRegister.hpp>
+#include <actions.hpp>
+
 
 namespace eos{
     namespace view{
@@ -22,6 +24,8 @@ namespace eos{
                void makeLayout();
                void drawImageInButton(nana::button& button,std::string icon); 
                void connect();
+               void writeFirstConfigs(dispatcher::TaskContext& ctx);
+               eos::business::actions::eosConfig getCurrentConfig();
 
                nana::form fm;
 

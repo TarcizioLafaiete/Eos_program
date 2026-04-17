@@ -9,7 +9,8 @@ namespace eos{
         enum signalRegister{
             START,
             STOP,
-            SAVE_CONFIG
+            SAVE_CONFIG,
+            LOAD_CONFIG
         };
     };
 }

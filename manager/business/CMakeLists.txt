@@ -1,5 +1,5 @@
 find_package(dispatcher REQUIRED)
-
+find_package(nlohmann_json REQUIRED)
 
 include_directories(/usr/local/include)
 link_directories(/usr/local/lib)
@@ -13,4 +13,5 @@ target_include_directories(business PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(business PUBLIC
     dispatcher::dispatcher
+    nlohmann_json::nlohmann_json
 )

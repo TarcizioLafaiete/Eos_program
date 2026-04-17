@@ -7,7 +7,7 @@ eos::business::workerComm::~workerComm(){};
 
 void eos::business::workerComm::start(dispatcher::TaskContext& ctx){
     
-    auto st = ctx.get<actions::emptyAction>();
+    auto st = ctx.get<actions::eosConfig>();
 
     std::cout<<"Sexo grupal"<<std::endl;
 
